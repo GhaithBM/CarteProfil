@@ -1,353 +1,95 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Salle de Sport GYMBM</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🧠 Memory Match</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .card {
+      perspective: 1000px;
+    }
+    .inner {
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+    .flipped .inner {
+      transform: rotateY(180deg);
+    }
+    .front, .back {
+      backface-visibility: hidden;
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    .back {
+      transform: rotateY(180deg);
+    }
+  </style>
+</head>
+<body class="bg-indigo-900 text-white min-h-screen flex flex-col items-center justify-center p-6">
 
-  <body class="bg-gray-50 text-gray-800">
-    <!-- Header -->
-    <header class="bg-gradient-to-r from-green-600 to-green-400 text-white p-6">
-      <nav class="max-w-5xl mx-auto flex justify-between items-center">
-        <h1 class="text-3xl font-bold">GYMBM</h1>
-        <ul class="flex space-x-6 text-lg font-semibold">
-          <li><a href="#services" class="hover:underline">Services</a></li>
-          <li><a href="#horaires" class="hover:underline">Horaires</a></li>
-          <li>
-            <a href="#inscription" class="hover:underline">Inscription</a>
-          </li>
-        </ul>
-      </nav>
-    </header>
+  <h1 class="text-4xl font-bold mb-4">🧠 Memory Match</h1>
+  <p class="mb-4 text-indigo-200">Retourne toutes les paires avec le moins d’essais possible</p>
+  <p class="mb-6">Essais : <span id="attempts">0</span></p>
 
-    <!-- Bannière -->
-    <section
-      class="bg-[url('https://images.unsplash.com/photo-1554284126-96c9d0e8236a?auto=format&fit=crop&w=1350&q=80')] bg-cover bg-center h-[400px] flex items-center justify-center"
-    >
-      <div class="bg-black bg-opacity-50 p-8 rounded-lg text-center max-w-3xl">
-        <h2 class="text-4xl font-bold mb-4">Bienvenue chez GYMBM</h2>
-        <p class="text-lg mb-6">
-          Votre salle de sport pour musculation, cardio et bien-être
-        </p>
-        <a
-          href="#inscription"
-          class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded shadow transition duration-300"
-          >Rejoignez-nous !</a
-        >
-      </div>
-    </section>
+  <div id="game" class="grid grid-cols-4 gap-4 max-w-md w-full"></div>
 
-    <!-- Services -->
-    <section id="services" class="max-w-5xl mx-auto mt-12 px-6">
-      <h3 class="text-3xl font-semibold text-center mb-8">
-        Nos services & tarifs
-      </h3>
-      <div class="grid md:grid-cols-5 gap-8 text-center">
-        <div
-          class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300 flex flex-col items-center justify-center"
-        >
-          <img
-            src="https://img.freepik.com/photos-premium/bel-homme-athletique-fort-pompage-muscles-seance-entrainement-remise-forme-concept-musculation-arriere-plan-bodybuilder-musculaire-hommes-remise-forme-faisant-exercices-dos-pour-bras-dans-salle-gym-torse-nu_174475-112.jpg"
-            alt="Musculation"
-            class="mb-4"
-          />
-          <h4 class="text-xl font-bold mb-2">Musculation</h4>
-          <p>
-            Des machines modernes et un coaching personnalisé pour atteindre vos
-            objectifs.
-          </p>
-          <p class="font-semibold text-green-700 mt-2">Prix : 60DT/mois</p>
+  <script>
+    const emojis = ["🍎", "🚗", "🎧", "🐱", "🌙", "⚽", "💎", "🎲"];
+    let cards = [...emojis, ...emojis].sort(() => 0.5 - Math.random());
+    const game = document.getElementById("game");
+    const attemptsDisplay = document.getElementById("attempts");
+
+    let flippedCards = [];
+    let attempts = 0;
+
+    function createCard(emoji) {
+      const card = document.createElement("div");
+      card.className = "card w-20 h-20 relative cursor-pointer";
+      card.dataset.emoji = emoji;
+
+      card.innerHTML = `
+        <div class="inner w-full h-full">
+          <div class="front bg-white text-gray-900 rounded shadow">?</div>
+          <div class="back bg-green-500 rounded shadow">${emoji}</div>
         </div>
-        <div
-          class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300 flex flex-col items-center justify-center"
-        >
-          <img
-            src="https://static.nike.com/a/images/f_auto/dpr_2.6,cs_srgb/h_485,c_limit/fff30ce6-b0e1-46d6-9ade-cc8feb711c05/should-you-do-cardio-before-or-after-weight-training.jpg"
-            alt="Cardio"
-            class="mb-4"
-          />
-          <h4 class="text-xl font-bold mb-2">Cardio</h4>
-          <p>
-            Cours de cardio, tapis de course et espace dédié pour brûler un
-            maximum de calories.
-          </p>
-          <p class="font-semibold text-green-700 mt-2">Prix : 45DT/mois</p>
-        </div>
-        <div
-          class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300 flex flex-col items-center justify-center"
-        >
-          <img
-            src="https://static.wixstatic.com/media/397649_eccc24a55dd9480ba29702f9e2d542c8~mv2.jpg/v1/fill/w_752,h_502,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/397649_eccc24a55dd9480ba29702f9e2d542c8~mv2.jpg"
-            alt="Bicyclette"
-            class="mb-4"
-          />
-          <h4 class="text-xl font-bold mb-2">Bicyclette</h4>
-          <p>Des pistes indoor et outdoor pour améliorer votre endurance.</p>
-          <p class="font-semibold text-green-700 mt-2">Prix : 55DT/mois</p>
-        </div>
-        <div
-          class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300 flex flex-col items-center justify-center"
-        >
-          <img
-            src="https://static.vecteezy.com/system/resources/previews/005/227/108/non_2x/woman-with-sword-action-kung-fu-fighter-vector.jpg"
-            alt="Kung-Fu"
-            class="mb-4"
-          />
-          <h4 class="text-xl font-bold mb-2">Kung-Fu</h4>
-          <p>
-            Apprenez l’art martial pour la discipline et la défense personnelle.
-          </p>
-          <p class="font-semibold text-green-700 mt-2">Prix : 50DT/mois</p>
-        </div>
-        <div
-          class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300 flex flex-col items-center justify-center"
-        >
-          <img
-            src="https://www.dabur.com/Blogs/Importance%20and%20Benefits%20of%20Yoga%20300x500.jpg"
-            alt="Yoga"
-            class="mb-4"
-          />
-          <h4 class="text-xl font-bold mb-2">Yoga & Bien-être</h4>
-          <p>
-            Sessions pour améliorer votre souplesse et votre sérénité mentale.
-          </p>
-          <p class="font-semibold text-green-700 mt-2">Prix : 50DT/mois</p>
-        </div>
-      </div>
-    </section>
+      `;
 
-    <!-- Horaires -->
-    <section
-      id="horaires"
-      class="max-w-5xl mx-auto mt-12 px-6 bg-white p-8 rounded-lg shadow text-center"
-    >
-      <h3 class="text-3xl font-semibold mb-6">Horaires d'ouverture</h3>
-      <table class="w-full text-left border-collapse mx-auto max-w-md">
-        <tbody>
-          <tr class="border-b">
-            <td class="py-2 font-semibold">Lundi - Vendredi</td>
-            <td class="py-2">6h00 - 22h00</td>
-          </tr>
-          <tr class="border-b">
-            <td class="py-2 font-semibold">Samedi</td>
-            <td class="py-2">8h00 - 18h00</td>
-          </tr>
-          <tr>
-            <td class="py-2 font-semibold">Dimanche</td>
-            <td class="py-2">Fermé</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+      card.addEventListener("click", () => {
+        if (card.classList.contains("flipped") || flippedCards.length === 2) return;
 
-    <!-- Inscription -->
-    <section
-      id="inscription"
-      class="max-w-5xl mx-auto mt-12 px-6 mb-12 bg-green-100 p-8 rounded-lg shadow"
-    >
-      <h3 class="text-3xl font-semibold text-center mb-6">Inscrivez-vous</h3>
-      <form
-        class="max-w-lg mx-auto space-y-6 bg-white p-6 rounded shadow"
-        id="subscriptionForm"
-        novalidate
-      >
-        <div>
-          <label for="name" class="block mb-1 font-semibold">Nom complet</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            placeholder="Votre nom"
-            required
-            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-          />
-          <p class="text-red-600 text-sm mt-1 hidden" id="errorName">
-            Veuillez saisir votre nom.
-          </p>
-        </div>
-        <div>
-          <label for="email" class="block mb-1 font-semibold">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="votre.email@example.com"
-            required
-            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-          />
-          <p class="text-red-600 text-sm mt-1 hidden" id="errorEmail">
-            Veuillez saisir un email valide.
-          </p>
-        </div>
-        <div>
-          <label for="program" class="block mb-1 font-semibold"
-            >Programme souhaité</label
-          >
-          <select
-            id="program"
-            name="program"
-            required
-            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-          >
-            <option value="">Sélectionnez</option>
-            <option value="musculation">Musculation</option>
-            <option value="cardio">Cardio</option>
-            <option value="yoga">Yoga & Bien-être</option>
-            <option value="bicyclette">Bicyclette</option>
-            <option value="kungfu">Kung-Fu</option>
-          </select>
-          <p class="text-red-600 text-sm mt-1 hidden" id="errorProgram">
-            Veuillez sélectionner un programme.
-          </p>
-        </div>
-        <div>
-          <label for="duration" class="block mb-1 font-semibold"
-            >Durée d'abonnement</label
-          >
-          <select
-            id="duration"
-            name="duration"
-            required
-            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-          >
-            <option value="">Sélectionnez</option>
-            <option value="1mois">1 mois</option>
-            <option value="3mois">3 mois</option>
-            <option value="1an">1 année</option>
-          </select>
-          <p class="text-red-600 text-sm mt-1 hidden" id="errorDuration">
-            Veuillez sélectionner une durée.
-          </p>
-        </div>
-        <div>
-          <label for="price" class="block mb-1 font-semibold">Prix total</label>
-          <input
-            type="text"
-            id="price"
-            name="price"
-            readonly
-            placeholder="Sélectionnez programme et durée"
-            class="w-full border border-gray-300 rounded px-3 py-2 bg-gray-100 cursor-not-allowed"
-          />
-        </div>
-        <button
-          type="submit"
-          class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded shadow transition duration-300"
-        >
-          S'inscrire
-        </button>
-      </form>
+        card.classList.add("flipped");
+        flippedCards.push(card);
 
-      <p
-        id="successMessage"
-        class="mt-6 text-green-700 font-semibold text-center hidden"
-      >
-        Merci pour votre inscription ! Nous vous contacterons bientôt.
-      </p>
-    </section>
+        if (flippedCards.length === 2) {
+          attempts++;
+          attemptsDisplay.textContent = attempts;
 
-    <footer class="bg-green-600 text-white text-center p-4">
-      &copy; 2025 FitPro. Tous droits réservés.
-    </footer>
-
-    <script>
-      const form = document.getElementById("subscriptionForm");
-
-      const errorName = document.getElementById("errorName");
-      const errorEmail = document.getElementById("errorEmail");
-      const errorProgram = document.getElementById("errorProgram");
-      const errorDuration = document.getElementById("errorDuration");
-
-      const successMessage = document.getElementById("successMessage");
-      const priceInput = document.getElementById("price");
-      const programSelect = form.program;
-      const durationSelect = form.duration;
-
-      // Prix par mois selon le programme
-      const pricePerMonth = {
-        musculation: 30,
-        cardio: 25,
-        yoga: 18,
-        bicyclette: 20,
-        kungfu: 22,
-      };
-
-      // Multiplicateur selon la durée
-      const durationMultiplier = {
-        "1mois": 1,
-        "3mois": 3,
-        "1an": 12,
-      };
-
-      // Met à jour le prix total quand programme ou durée changent
-      function updatePrice() {
-        const prog = programSelect.value;
-        const dur = durationSelect.value;
-
-        if (prog && dur) {
-          const total = pricePerMonth[prog] * durationMultiplier[dur];
-          priceInput.value = total + " dt";
-        } else {
-          priceInput.value = "";
+          const [first, second] = flippedCards;
+          if (first.dataset.emoji === second.dataset.emoji) {
+            flippedCards = [];
+          } else {
+            setTimeout(() => {
+              first.classList.remove("flipped");
+              second.classList.remove("flipped");
+              flippedCards = [];
+            }, 800);
+          }
         }
-      }
-
-      programSelect.addEventListener("change", updatePrice);
-      durationSelect.addEventListener("change", updatePrice);
-
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        // Reset erreurs
-        errorName.classList.add("hidden");
-        errorEmail.classList.add("hidden");
-        errorProgram.classList.add("hidden");
-        errorDuration.classList.add("hidden");
-        successMessage.classList.add("hidden");
-
-        // Valeurs
-        const name = form.name.value.trim();
-        const email = form.email.value.trim();
-        const program = form.program.value;
-        const duration = form.duration.value;
-
-        let valid = true;
-
-        if (!name) {
-          errorName.classList.remove("hidden");
-          valid = false;
-        }
-
-        // Simple regex email
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!email || !emailRegex.test(email)) {
-          errorEmail.classList.remove("hidden");
-          valid = false;
-        }
-
-        if (!program) {
-          errorProgram.classList.remove("hidden");
-          valid = false;
-        }
-
-        if (!duration) {
-          errorDuration.classList.remove("hidden");
-          valid = false;
-        }
-
-        if (!valid) {
-          return;
-        }
-
-        // Afficher message succès
-        successMessage.classList.remove("hidden");
-
-        // Réinitialiser formulaire sauf prix (recalcule au changement)
-        form.reset();
-        priceInput.value = "";
       });
-    </script>
-  </body>
+
+      return card;
+    }
+
+    // Init game
+    cards.forEach(emoji => game.appendChild(createCard(emoji)));
+  </script>
+
+</body>
 </html>
