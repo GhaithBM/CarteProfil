@@ -1,0 +1,15 @@
+
+/*! tailwindcss v3.0.0 | MIT License | https://tailwindcss.com */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Exemple de classes compilées (fictives) */
+.text-center { text-align: center; }
+.text-white { color: #ffffff; }
+.bg-indigo-600 { background-color: #4f46e5; }
+.rounded { border-radius: 0.25rem; }
+.shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+.p-4 { padding: 1rem; }
+.mt-4 { margin-top: 1rem; }
+.w-full { width: 100%; }

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Carte Profil Tailwind</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="max-w-sm w-full bg-white shadow-md rounded-xl p-6 text-center">
+      <!-- Avatar -->
+      <img
+        class="w-24 h-24 rounded-full mx-auto border-4 border-blue-500"
+        src="ghaithphotodeprofil.jpg"
+        alt="Photo de Ghaith"
+      />
+
+      <!-- Nom et fonction -->
+      <h2 class="mt-4 text-xl font-semibold text-gray-800">
+        Ghaith Ben Messaoud
+      </h2>
+      <p class="text-blue-500">Développeur Full-Stack</p>
+
+      <!-- Bouton -->
+      <button
+        onclick="toggleSkills()"
+        class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-full transition duration-300"
+      >
+        Suivre
+      </button>
+
+      <!-- Section Compétences cachée au début -->
+      <div id="skills" class="mt-6 hidden text-left">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">
+          🛠️ Compétences techniques
+        </h3>
+        <ul class="list-disc list-inside text-gray-600">
+          <li>HTML5 & CSS3</li>
+          <li>JavaScript (ES6+)</li>
+          <li>Tailwind CSS</li>
+          <li>Angular</li>
+          <li>Spring Boot</li>
+          <li>MySQL</li>
+          <li>Git & GitHub</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+      function toggleSkills() {
+        const skills = document.getElementById("skills");
+        skills.classList.toggle("hidden");
+      }
+    </script>
+  </body>
+</html>
