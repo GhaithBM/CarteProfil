@@ -1,95 +1,222 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🧠 Memory Match</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .card {
-      perspective: 1000px;
-    }
-    .inner {
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-    }
-    .flipped .inner {
-      transform: rotateY(180deg);
-    }
-    .front, .back {
-      backface-visibility: hidden;
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      font-weight: bold;
-    }
-    .back {
-      transform: rotateY(180deg);
-    }
-  </style>
-</head>
-<body class="bg-indigo-900 text-white min-h-screen flex flex-col items-center justify-center p-6">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio - Ghaith Ben Messaoud</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(to bottom right, #e0f2fe, #f0f9ff);
+        scroll-behavior: smooth;
+      }
 
-  <h1 class="text-4xl font-bold mb-4">🧠 Memory Match</h1>
-  <p class="mb-4 text-indigo-200">Retourne toutes les paires avec le moins d’essais possible</p>
-  <p class="mb-6">Essais : <span id="attempts">0</span></p>
+      img {
+        border: 4px solid #3b82f6;
+        transition: transform 0.4s ease;
+      }
 
-  <div id="game" class="grid grid-cols-4 gap-4 max-w-md w-full"></div>
+      img:hover {
+        transform: scale(1.05);
+      }
 
-  <script>
-    const emojis = ["🍎", "🚗", "🎧", "🐱", "🌙", "⚽", "💎", "🎲"];
-    let cards = [...emojis, ...emojis].sort(() => 0.5 - Math.random());
-    const game = document.getElementById("game");
-    const attemptsDisplay = document.getElementById("attempts");
+      .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: linear-gradient(to top left, #ffffff, #f0f9ff);
+        border-left: 5px solid #3b82f6;
+      }
 
-    let flippedCards = [];
-    let attempts = 0;
+      .card:hover {
+        transform: translateY(-5px) scale(1.01);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
 
-    function createCard(emoji) {
-      const card = document.createElement("div");
-      card.className = "card w-20 h-20 relative cursor-pointer";
-      card.dataset.emoji = emoji;
+      a {
+        transition: all 0.3s ease;
+      }
 
-      card.innerHTML = `
-        <div class="inner w-full h-full">
-          <div class="front bg-white text-gray-900 rounded shadow">?</div>
-          <div class="back bg-green-500 rounded shadow">${emoji}</div>
+      a:hover {
+        color: #1e40af;
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body class="text-gray-800">
+    <!-- Header -->
+    <header class="bg-white shadow-md p-6 flex items-center justify-between">
+      <h1 class="text-3xl font-bold text-blue-900">Ghaith Ben Messaoud</h1>
+      <a
+        href="ghaithcv.pdf"
+        download
+        class="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-5 py-2 rounded hover:opacity-90 shadow-lg"
+        >📄 Télécharger CV</a
+      >
+    </header>
+
+    <!-- Présentation -->
+    <section class="p-8 text-center">
+      <img
+        src="ghaithphotodeprofil.jpg"
+        alt="Photo de Ghaith"
+        class="mx-auto rounded-full w-40 h-40 object-cover shadow-lg"
+      />
+      <h2 class="text-3xl mt-4 font-bold text-blue-700">
+        Développeur Full Stack
+      </h2>
+      <p class="mt-3 max-w-xl mx-auto text-gray-700 leading-relaxed">
+        Passionné par le développement web et mobile, je crée des solutions
+        performantes de bout en bout. Mon objectif est de construire des
+        applications utiles, bien codées et agréables à utiliser.
+      </p>
+    </section>
+
+    <!-- Compétences -->
+    <section class="bg-white p-8 shadow-inner mt-6">
+      <h3 class="text-2xl font-bold mb-6 text-blue-700">
+        🧠 Compétences techniques
+      </h3>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
+        <div class="bg-blue-100 p-4 rounded shadow">HTML5 / CSS3</div>
+        <div class="bg-blue-100 p-4 rounded shadow">JavaScript</div>
+        <div class="bg-blue-100 p-4 rounded shadow">Tailwind CSS</div>
+        <div class="bg-blue-100 p-4 rounded shadow">Angular / React</div>
+        <div class="bg-blue-100 p-4 rounded shadow">Spring Boot</div>
+        <div class="bg-blue-100 p-4 rounded shadow">Node.js</div>
+        <div class="bg-blue-100 p-4 rounded shadow">MySQL / MongoDB</div>
+        <div class="bg-blue-100 p-4 rounded shadow">Git / GitHub</div>
+        <div class="bg-blue-100 p-4 rounded shadow">Docker (bases)</div>
+      </div>
+    </section>
+
+    <!-- Projets -->
+    <section class="p-8 bg-gradient-to-b from-white to-blue-50">
+      <h3 class="text-2xl font-bold mb-6 text-blue-700">📁 Projets Réalisés</h3>
+      <div class="space-y-6">
+        <div class="p-6 rounded card">
+          <h4 class="text-lg font-semibold">🧾 Gestion des stagiaires</h4>
+          <p class="text-sm text-gray-700">
+            Application web pour gérer les stagiaires : suivi, affectations,
+            validations.
+          </p>
         </div>
-      `;
 
-      card.addEventListener("click", () => {
-        if (card.classList.contains("flipped") || flippedCards.length === 2) return;
+        <div class="p-6 rounded card">
+          <h4 class="text-lg font-semibold">🎓 Gestion des Formations</h4>
+          <p class="text-sm text-gray-700">
+            Système de gestion des formations internes et suivi des apprenants.
+          </p>
+        </div>
 
-        card.classList.add("flipped");
-        flippedCards.push(card);
+        <div class="p-6 rounded card">
+          <h4 class="text-lg font-semibold">📱 ChatApp (Mobile)</h4>
+          <p class="text-sm text-gray-700">
+            Application de messagerie mobile avec Firebase et notifications en
+            temps réel.
+          </p>
+        </div>
 
-        if (flippedCards.length === 2) {
-          attempts++;
-          attemptsDisplay.textContent = attempts;
+        <div class="p-6 rounded card">
+          <h4 class="text-lg font-semibold">
+            📊 Projet PFE - Contrôle des Recettes et Suivi des Ventes
+          </h4>
+          <p class="text-sm text-gray-700">
+            Plateforme complète pour gérer les ventes et analyser les recettes
+            (Angular + Spring Boot + IA).
+          </p>
+        </div>
 
-          const [first, second] = flippedCards;
-          if (first.dataset.emoji === second.dataset.emoji) {
-            flippedCards = [];
-          } else {
-            setTimeout(() => {
-              first.classList.remove("flipped");
-              second.classList.remove("flipped");
-              flippedCards = [];
-            }, 800);
-          }
-        }
-      });
+        <div class="p-6 rounded card">
+          <h4 class="text-lg font-semibold">🎴 CarteProfil</h4>
+          <p class="text-sm text-gray-700">
+            Mini-projet de carte profil stylisée en HTML/CSS/JS —
+            <a
+              href="https://github.com/GhaithBM/CarteProfil"
+              target="_blank"
+              class="text-blue-600"
+              >Voir sur GitHub</a
+            >
+          </p>
+        </div>
 
-      return card;
-    }
+        <div class="p-6 rounded card">
+          <h4 class="text-lg font-semibold">🧠 JeuDeMemoire</h4>
+          <p class="text-sm text-gray-700">
+            Jeu de mémoire interactif réalisé en JavaScript —
+            <a
+              href="https://github.com/GhaithBM/JeuDeMemoire"
+              target="_blank"
+              class="text-blue-600"
+              >Voir sur GitHub</a
+            >
+          </p>
+        </div>
 
-    // Init game
-    cards.forEach(emoji => game.appendChild(createCard(emoji)));
-  </script>
+        <div class="p-6 rounded card">
+          <h4 class="text-lg font-semibold">💪 SaleDeSportBM</h4>
+          <p class="text-sm text-gray-700">
+            Gestion d’une salle de sport (front + back) avec fiche adhérent —
+            <a
+              href="https://github.com/GhaithBM/SaleDeSportBM"
+              target="_blank"
+              class="text-blue-600"
+              >Voir sur GitHub</a
+            >
+          </p>
+        </div>
 
-</body>
+        <div class="p-6 rounded card">
+          <h4 class="text-lg font-semibold">🧪 Mini-projets GitHub</h4>
+          <p class="text-sm text-gray-700">
+            Retrouvez tous mes mini-projets sur
+            <a
+              href="https://github.com/GhaithBM"
+              target="_blank"
+              class="text-blue-600"
+              >GitHub</a
+            >
+            : quiz app, météo, gestion, design UI, etc.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="bg-white p-8 mt-6 shadow-inner">
+      <h3 class="text-2xl font-bold mb-4 text-blue-700">📬 Contact</h3>
+      <p class="text-gray-700">
+        <strong>Email :</strong>
+        <a href="mailto:Ghaithbayernn123@gmail.com" class="text-blue-600"
+          >Ghaithbayernn123@gmail.com</a
+        >
+      </p>
+      <p class="text-gray-700">
+        <strong>LinkedIn :</strong>
+        <a
+          href="https://www.linkedin.com/in/ghaith-ben-messaoud"
+          class="text-blue-600"
+          target="_blank"
+          >Ghaith Ben Messaoud</a
+        >
+      </p>
+      <p class="text-gray-700">
+        <strong>GitHub :</strong>
+        <a
+          href="https://github.com/GhaithBM"
+          class="text-blue-600"
+          target="_blank"
+          >github.com/GhaithBM</a
+        >
+      </p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center p-4 mt-8 text-sm text-gray-500">
+      © 2025 Ghaith Ben Messaoud — Tous droits réservés.
+    </footer>
+  </body>
 </html>
